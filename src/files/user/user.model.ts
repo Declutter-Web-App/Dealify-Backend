@@ -19,32 +19,26 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-    category: {
+    userType: {
       type: String,
-      enum: ["admin", "partner"],
+      enum: ["seller", "buyer"],
       required: true,
     },
-    businessName: {
-      type: String,
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
-    registrationNumber: {
-      type: String,
-    },
-    location: {
-      type: String,
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
     image: {
       type: String,
-    },
-    accountDetails: {
-      bankName: String,
-      accountName: String,
-      accountNumber: String,
     },
   },
   { timestamps: true },
 )
 
-const user = model<IUser>("User", UserSchema, "user")
+const User = model<IUser>("User", UserSchema, "user")
 
-export default user
+export default User

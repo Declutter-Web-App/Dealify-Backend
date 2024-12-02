@@ -4,7 +4,7 @@ import fs from "fs";
 import path, { resolve } from "path";
 import mailer from "nodemailer";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
 
 handlebars.registerHelper("eq", (a, b) => a == b)
 

@@ -6,14 +6,6 @@ import UserService from './user.service'
 import { statusCode } from '../../constants/statusCode'
 
 class UserController {
-  async signupController(req: Request, res: Response, next: NextFunction) {
-    const [error, data] = await manageAsyncOps(UserService.signup(req.body))
-
-    if (error) return next(error)
-    if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode.CREATED, data!)
-  }
-
   async fetchUsersController(req: Request, res: Response, next: NextFunction) {
     const [error, data] = await manageAsyncOps(
       UserService.fetchUsersService(req.query),

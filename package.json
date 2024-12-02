@@ -4,17 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "test": "jest",
     "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn --rs src/index.ts"
+    "build": "tsc --watch",
+    "dev": "nodemon src/index.ts",
+    "format": "prettier --write .",
+    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.2.0",
-    "typescript": "^5.5.4",
     "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.2",
@@ -23,12 +23,13 @@
     "@types/json2csv": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/multer": "^1.4.7",
+    "@types/node": "^22.2.0",
     "@types/nodemailer": "^6.4.8",
     "ts-node": "^10.9.1",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "express": "^4.19.2",
     "@json2csv/plainjs": "^7.0.1",
     "@sendgrid/mail": "^7.7.0",
     "axios": "^1.4.0",
@@ -38,6 +39,7 @@
     "cors": "^2.8.5",
     "cron": "^2.3.1",
     "dotenv": "^16.0.3",
+    "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "handlebars": "^4.7.7",
     "helmet": "^7.0.0",
@@ -45,6 +47,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.0",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.3"
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^3.1.7"
   }
 }

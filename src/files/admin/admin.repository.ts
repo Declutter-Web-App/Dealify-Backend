@@ -47,7 +47,7 @@ export default class AdminRepository {
 
   static async deleteAdminProfile(
     _id: Partial<IAdmin>,
-  ): Promise<IAdmin | null> {
+  ): Promise<IAdmin | any | null> {
     const adminDetails = await Admin.findOneAndDelete({
       _id,
     });

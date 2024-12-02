@@ -4,7 +4,9 @@ export interface IUser extends Partial<IUserExt> {
   email: string
   phoneNumber: string
   password: string
-  category: "admin" | "partner"
+  userType: "seller" | "buyer"
+  isDeleted: boolean
+  isVerified: boolean
   createdAt?: Date
   updatedAt?: Date
 }
@@ -29,3 +31,13 @@ export interface IUserSearch {
   startDate: Date
   endDate: Date
 }
+
+export interface IUserLogin 
+  extends Pick<IUser, "_id" | "email" | "password" | "isDeleted" | "userType"> {}
+
+  export interface IUserResetPasswordPayload {
+    email: string
+    newPassword: string
+    currentPassword: string
+    confirmPassword: string
+  }

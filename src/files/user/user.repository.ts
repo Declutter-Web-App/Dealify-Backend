@@ -1,13 +1,17 @@
-import { IUser, IUserSearch } from "./user.interface"
+import { IUser, IUserLogin, IUserSearch } from "./user.interface"
 import User from "./user.model"
 import pagination, { IPagination } from "../../constants"
-import mongoose from "mongoose"
+import mongoose, { Model } from "mongoose"
+import Seller from "./seller/seller.model"
+import Buyer from "./buyer/buyer.model"
 
 const { LIMIT, SKIP, SORT } = pagination
 
 export default class UserRepository {
-  static createUser(userPayload: IUser): Promise<IUser> {
-    return User.create(userPayload)
+  static async createUser(userPayload: IUser): Promise<IUser> {
+    const { userType } = userPayload;
+
+    return userType === 'seller' ? await Seller.create(userPayload) : await Buyer.create(userPayload)
   }
 
   //use this without save feature
@@ -27,8 +31,16 @@ export default class UserRepository {
     return user
   }
 
-  static async validateUser(query: Partial<IUser> | { $or: Partial<IUser>[] }) {
-    return User.exists(query)
+  static async fetchUserWithPassword(
+    userPayload: Partial<IUser>,
+  ): Promise<IUserLogin | null> {
+    const user: Awaited<IUser | null> = await User.findOne(
+      {
+        ...userPayload,
+      },
+      { _id: 1, password: 1, email: 1, isDeleted: 1, userType: 1 }
+    );
+    return user;
   }
 
   static async updateUserDetails(
@@ -44,9 +56,13 @@ export default class UserRepository {
       },
       { ...update },
       { rawResult: true }, //returns details about the update
-    )
+    );
 
-    return response!
+    return response!;
+  }
+
+  static async validateUser(query: Partial<IUser> | { $or: Partial<IUser>[] }) {
+    return User.exists(query)
   }
 
   static async fetchUsersByParams(

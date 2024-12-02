@@ -15,9 +15,14 @@ const createUserValidation = {
     errorMessage: "Phone number cannot be empty",
     trim: true,
   },
-  course: {
+  password: {
     notEmpty: true,
-    errorMessage: "Course cannot be empty",
+    errorMessage: "Password cannot be empty",
+    trim: true,
+  },
+  userType: {
+    notEmpty: true,
+    errorMessage: "userType cannot be empty",
     trim: true,
   },
 }

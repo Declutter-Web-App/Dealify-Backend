@@ -155,8 +155,8 @@ const queryConstructor = (query: any, sortBy: string, item: string) => {
 const fileModifier = (req: any) => {
   let { body, file, files, params } = req
 
-  let mediaUrl = []
-  let formBody = {}
+  let mediaUrl: string[] = []
+  let formBody = {} as { [key: string]: any }
   if (files) {
     for (let file of files) {
       const { path } = file
