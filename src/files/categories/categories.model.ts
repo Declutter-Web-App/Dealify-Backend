@@ -20,7 +20,7 @@ const CategorySchema = new Schema<ICategories>(
   { timestamps: true },
 )
 
-const Category = model<ICategories>("User", CategorySchema, "user")
+const Category = model<ICategories>("Category", CategorySchema, "category")
 
 
 export default Category
