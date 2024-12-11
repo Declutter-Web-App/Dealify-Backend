@@ -24,6 +24,39 @@ class UserController {
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode.CREATED, data!)
   }
+
+  async updateController( 
+    req: Request, 
+    res: Response, 
+    next: NextFunction
+  ) {
+    const [error, data] = await manageAsyncOps(
+      UserService.updateService({
+        params: req.params as { userId: string },
+        userPayload: req.body,
+      }),
+    )
+
+    if (error) return next(error)
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
+    return responseHandler(res, statusCode.CREATED, data!)
+  }
+
+  async deleteController( 
+    req: Request, 
+    res: Response, 
+    next: NextFunction
+  ) {
+    const [error, data] = await manageAsyncOps(
+      UserService.deleteService({
+        params: req.params as { userId: string },
+      }),
+    )
+
+    if (error) return next(error)
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
+    return responseHandler(res, statusCode.CREATED, data!)
+  }
 }
 
 export default new UserController()

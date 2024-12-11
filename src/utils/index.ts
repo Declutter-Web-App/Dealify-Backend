@@ -12,7 +12,7 @@ import {
 import constants, { IResponse } from "../constants"
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
-import { userMessages } from "../files/user/user.messages"
+import { userMessages } from "../files/users/user.messages"
 
 const COUNTRY_CODE = "234"
 

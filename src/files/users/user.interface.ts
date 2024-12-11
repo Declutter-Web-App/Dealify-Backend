@@ -36,6 +36,7 @@ export interface IUserLogin
   extends Pick<IUser, "_id" | "email" | "password" | "isDeleted" | "userType"> {}
 
   export interface IUserResetPasswordPayload {
+    _id: string
     email: string
     newPassword: string
     currentPassword: string

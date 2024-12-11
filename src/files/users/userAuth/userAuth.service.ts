@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { IResponse } from "../../../constants";
 import { generalMessages } from "../../../core/messages";
 import { AlphaNumeric, hashPassword, tokenHandler, verifyPassword } from "../../../utils";
@@ -217,5 +217,37 @@ export default class UserAuthService {
       return { success: false, msg: userMessages.PASSWORD_RESET_FAILURE };
 
     return { success: true, msg: userMessages.PASSWORD_RESET_SUCCESS };
+  }
+
+  static async updatePassword(userPayload: IUserResetPasswordPayload): Promise<IResponse> {
+    const { currentPassword } = userPayload
+
+    const user = await UserRepository.fetchUserWithPassword(
+      {
+        _id: new mongoose.Types.ObjectId(userPayload._id),
+      }
+    )
+
+    if (!user) return { success: false, msg: userMessages.USER_NOT_FOUND }
+
+    //verify password
+    const passwordMatch = await verifyPassword(currentPassword, user.password)
+    if (!passwordMatch) return { success: false, msg: userMessages.PASSWORD_MISMATCH }
+
+    let password = await hashPassword(userPayload.newPassword)
+
+    const changePassword = await UserRepository.updateUserDetails(
+      { _id: new mongoose.Types.ObjectId(userPayload._id) },
+      {
+        password,
+      }
+    )
+
+    if (!changePassword) return { success: false, msg: userMessages.PASSWORD_RESET_FAILURE }
+
+    return {
+      success: true,
+      msg: userMessages.PASSWORD_RESET_SUCCESS,
+    }
   }
 }

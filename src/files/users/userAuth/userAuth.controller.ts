@@ -77,6 +77,20 @@ class UserAuthController {
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .SUCCESS, data!)
   }
+
+  async updatePassword(
+    req: Request,
+    res: Response, 
+    next: NextFunction
+  ) {
+    const [error, data] = await manageAsyncOps(
+      UserAuthService.updatePassword(req.body)
+    )
+
+    if (error) return next( new CustomError(error.message))
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
+    return responseHandler(res, statusCode  .SUCCESS, data!)
+  }
 }
 
 export default new UserAuthController();

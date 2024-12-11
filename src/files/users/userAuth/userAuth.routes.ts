@@ -14,7 +14,8 @@ const {
   sendOTP, 
   verifyOTP, 
   verifyEmail,
-  userResetPassword 
+  userResetPassword,
+  updatePassword
 } = UserAuthController
 
 //routes
@@ -34,5 +35,6 @@ UserAuthRouter.post("/user/send-otp", sendOTP)
 UserAuthRouter.post("/user/verify/otp", verifyOTP)
 UserAuthRouter.post("/user/verify/email", verifyEmail)
 UserAuthRouter.post("/user/reset/password", userResetPassword)
+UserAuthRouter.post("/user/update/password", updatePassword)
 
 export default UserAuthRouter

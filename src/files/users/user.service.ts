@@ -1,14 +1,9 @@
 import mongoose from "mongoose"
-import { IPagination, IResponse } from "../../constants"
-import { generalMessages } from "../../core/messages"
-import { AlphaNumeric, hashPassword, queryConstructor } from "../../utils"
+import { queryConstructor } from "../../utils"
 import { IUser } from "./user.interface"
 import { userMessages } from "./user.messages"
 import UserRepository from "./user.repository"
-import { sendMailNotification } from "../../utils/email"
-import { RequestHandler } from "../../utils/axios.provision"
-
-const url = process.env.BASE_URL || "https://dsep.skillupafrica.com.ng"
+import { IResponse } from "../../constants"
 
 export default class UserService {
   static async fetchUsersService(query: Partial<IUser>) {
@@ -41,6 +36,10 @@ export default class UserService {
     }
   }
 
+  static async getDetails() {
+    
+  }
+
   static async searchService(query: Partial<IUser>) {
     const { error, params, limit, skip, sort } = queryConstructor(
       query,
@@ -69,5 +68,48 @@ export default class UserService {
       msg: userMessages.FETCH_USERS,
       data: users,
     }
+  }
+
+  static async updateService(
+    data: {
+      params: { userId: string }
+      userPayload: Partial<IUser>
+    }
+  ): Promise<IResponse> {
+    const { params, userPayload } = data
+
+    const customer = await UserRepository.updateUserDetails(
+      { _id: new mongoose.Types.ObjectId(params.userId) },
+      {
+        $set: {
+          ...userPayload
+        }
+      }
+    )
+
+    if(!customer) return { success: false, msg: userMessages.UPDATE_PROFILE_FAILURE }
+
+    return { success: true, msg: userMessages.UPDATE_PROFILE_SUCCESS }
+  }
+
+  static async deleteService(
+    data: {
+      params: { userId: string }
+    }
+  ): Promise<IResponse> {
+    const { params } = data
+
+    const customer = await UserRepository.updateUserDetails(
+      { _id: new mongoose.Types.ObjectId(params.userId) },
+      {
+        $set: {
+          isDeleted: true
+        }
+      }
+    )
+
+    if(!customer) return { success: false, msg: userMessages.UPDATE_PROFILE_FAILURE }
+
+    return { success: true, msg: userMessages.DELETE }
   }
 }

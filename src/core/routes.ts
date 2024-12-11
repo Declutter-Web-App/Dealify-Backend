@@ -1,6 +1,6 @@
 import { Application } from "express";
 import AdminRouter from "../files/admin/admin.route";
-import UserAuthRouter from "../files/user/userAuth/userAuth.routes";
+import UserAuthRouter from "../files/users/userAuth/userAuth.routes";
 import CategoryRouter from "../files/categories/categories.routes";
 
 // Routes goes here

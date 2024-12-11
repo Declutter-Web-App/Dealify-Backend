@@ -5,11 +5,22 @@ import upload from "../../utils/multer"
 
 const UserRoute = express.Router()
 
-const { fetchUsersController, searchController } =
+const { fetchUsersController, searchController, updateController, deleteController } =
   userController
+
+
+UserRoute.use(isAuthenticated)
 
 //routes
 UserRoute.get("/", fetchUsersController)
 UserRoute.get("/search", searchController)
+UserRoute.put(
+  "/:userId",
+  updateController,
+)
+UserRoute.delete(
+  "/:userId",
+  deleteController,
+)
 
 export default UserRoute
